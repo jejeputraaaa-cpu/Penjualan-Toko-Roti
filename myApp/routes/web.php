@@ -10,7 +10,6 @@ use App\Http\Controllers\SalesReportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-
 /*
 |--------------------------------------------------------------------------
 | Halaman Utama
@@ -23,9 +22,7 @@ Route::get('/', function () {
     if ($user) {
         return redirect()->route(match ($user->role) {
             'owner' => 'owner.dashboard',
-            'admin_kasir' => 'admin.dashboard',
-            'admin' => 'admin.dashboard',
-            'kasir' => 'admin.dashboard',
+            'admin_kasir', 'admin', 'kasir' => 'admin.dashboard',
             default => 'login',
         });
     }
@@ -33,10 +30,9 @@ Route::get('/', function () {
     return view('landing');
 })->name('home');
 
-
 /*
 |--------------------------------------------------------------------------
-| Login & Logout
+| Login dan Logout
 |--------------------------------------------------------------------------
 */
 
@@ -50,10 +46,9 @@ Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
     ->name('logout');
 
-
 /*
 |--------------------------------------------------------------------------
-| ADMIN / KASIR
+| Dashboard Admin / Kasir
 |--------------------------------------------------------------------------
 */
 
@@ -62,32 +57,24 @@ Route::middleware(['auth', 'role:admin_kasir'])
     ->name('admin.')
     ->group(function () {
 
-        // Dashboard Admin/Kasir
         Route::get('/dashboard', function () {
             return view('dashboard.index');
         })->name('dashboard');
 
-
-        // Profil Pengguna
         Route::get('/profil', [AuthController::class, 'profile'])
             ->name('profile');
 
-
         // Data Produk
         Route::resource('produk', ProductController::class)
-            ->parameters([
-                'produk' => 'product',
-            ])
+            ->parameters(['produk' => 'product'])
             ->names('products');
 
-
-        // Kasir
+        // Kasir Offline
         Route::get('/kasir', [SaleController::class, 'create'])
             ->name('sales.create');
 
         Route::post('/kasir', [SaleController::class, 'store'])
             ->name('sales.store');
-
 
         // Riwayat Penjualan
         Route::get('/penjualan', [SaleController::class, 'history'])
@@ -98,12 +85,15 @@ Route::middleware(['auth', 'role:admin_kasir'])
 
         Route::get('/penjualan/{sale}/struk', [SaleController::class, 'receipt'])
             ->name('sales.receipt');
-    });
 
+        // Laporan Penjualan khusus Admin / Kasir
+        Route::get('/laporan-penjualan', [SalesReportController::class, 'index'])
+            ->name('reports');
+    });
 
 /*
 |--------------------------------------------------------------------------
-| OWNER
+| Dashboard Owner
 |--------------------------------------------------------------------------
 */
 
@@ -112,32 +102,18 @@ Route::middleware(['auth', 'role:owner'])
     ->name('owner.')
     ->group(function () {
 
-        // Dashboard Owner
         Route::get('/dashboard', function () {
             return view('dashboard.owner');
         })->name('dashboard');
 
-
-        // Laporan Penjualan
-        Route::get('/laporan-penjualan', [
-            SalesReportController::class,
-            'index',
-        ])->name('reports');
-
-
         // Profil Toko
-        Route::get('/profil-toko', [
-            StoreProfileController::class,
-            'edit',
-        ])->name('profile');
+        Route::get('/profil-toko', [StoreProfileController::class, 'edit'])
+            ->name('profile');
 
-        Route::put('/profil-toko', [
-            StoreProfileController::class,
-            'update',
-        ])->name('profile.update');
+        Route::put('/profil-toko', [StoreProfileController::class, 'update'])
+            ->name('profile.update');
 
-
-        // Kelola Pengguna
+        // Manajemen Pengguna
         Route::get('/users', [UserManagementController::class, 'index'])
             ->name('users');
 
@@ -155,4 +131,8 @@ Route::middleware(['auth', 'role:owner'])
 
         Route::delete('/users/{user}', [UserManagementController::class, 'destroy'])
             ->name('users.destroy');
+
+        // Laporan Penjualan khusus Owner
+        Route::get('/laporan-penjualan', [SalesReportController::class, 'index'])
+            ->name('reports');
     });

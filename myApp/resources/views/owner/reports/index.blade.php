@@ -188,9 +188,13 @@
             </p>
         </div>
 
-        <a href="{{ route('owner.dashboard') }}" class="btn">
-            Kembali ke Dashboard
-        </a>
+        
+<a href="{{ auth()->user()->role === 'owner'
+    ? route('owner.dashboard')
+    : route('admin.dashboard') }}" class="btn">
+    Kembali ke Dashboard
+</a>
+
     </div>
 
     <form action="{{ route('owner.reports') }}" method="GET" class="filter">

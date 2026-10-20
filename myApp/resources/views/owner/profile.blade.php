@@ -215,7 +215,9 @@
 <body>
     <header class="topbar">
         <div class="brand">MODERN <span>BAKERY</span></div>
-        <a class="back" href="{{ route('owner.dashboard') }}">
+        <a href="{{ auth()->user()->role === 'owner'
+            ? route('owner.dashboard')
+            : route('admin.dashboard') }}" class="btn">
             ← Kembali ke Dashboard
         </a>
     </header>

@@ -1,16 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="id">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Edit Produk - Modern Bakery</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -26,7 +23,6 @@
             background: white;
             border-bottom: 1px solid #ddd6cc;
             padding: 22px 55px;
-
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -148,6 +144,7 @@
             margin: 0 0 22px;
             color: #756861;
             font-size: 14px;
+            line-height: 1.6;
         }
 
         .error-box {
@@ -162,6 +159,33 @@
         .error-box ul {
             margin: 8px 0 0 20px;
             padding: 0;
+        }
+
+        .photo-preview {
+            width: 180px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #e2ddd5;
+            background: #f7f4ee;
+            display: block;
+            margin-bottom: 12px;
+        }
+
+        .no-photo {
+            width: 180px;
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: #f7f4ee;
+            border: 1px dashed #c9bdb0;
+            border-radius: 10px;
+            color: #81766f;
+            margin-bottom: 12px;
+            font-size: 14px;
+            padding: 12px;
         }
 
         .button-area {
@@ -199,7 +223,6 @@
         }
 
         @media (max-width: 700px) {
-
             .navbar {
                 padding: 18px 20px;
             }
@@ -224,119 +247,61 @@
                 width: 100%;
                 text-align: center;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
     <div class="navbar">
-
-        <div class="brand">
-            Modern Bakery
-        </div>
-
+        <div class="brand">Modern Bakery</div>
 
         <div class="user-area">
+            <span>{{ auth()->user()->nama }}</span>
 
-            <span>
-                {{ auth()->user()->nama }}
-            </span>
-
-
-            <form
-                action="{{ route('logout') }}"
-                method="POST"
-            >
-
+            <form action="{{ route('logout') }}" method="POST">
                 @csrf
-
-                <button
-                    type="submit"
-                    class="logout-button"
-                >
+                <button type="submit" class="logout-button">
                     Keluar
                 </button>
-
             </form>
-
         </div>
-
     </div>
-
-
 
     <div class="container">
 
-
         <div class="page-header">
-
-            <h1>
-                Edit Produk
-            </h1>
-
-            <p>
-                Ubah informasi produk dan stok Modern Bakery.
-            </p>
-
+            <h1>Edit Produk</h1>
+            <p>Ubah informasi produk, foto, dan stok Modern Bakery.</p>
         </div>
-
-
 
         <div class="card">
 
-
             @if ($errors->any())
-
                 <div class="error-box">
-
-                    <strong>
-                        Ada data yang belum benar:
-                    </strong>
-
+                    <strong>Ada data yang belum benar:</strong>
                     <ul>
-
                         @foreach ($errors->all() as $error)
-
-                            <li>
-                                {{ $error }}
-                            </li>
-
+                            <li>{{ $error }}</li>
                         @endforeach
-
                     </ul>
-
                 </div>
-
             @endif
-
-
 
             <form
                 action="{{ route('admin.products.update', $product) }}"
                 method="POST"
+                enctype="multipart/form-data"
             >
-
                 @csrf
-
                 @method('PUT')
-
-
 
                 {{-- DATA PRODUK --}}
 
                 <div class="form-group">
-
                     <label for="nama_produk">
-                        Nama Produk
-                        <span class="required">*</span>
+                        Nama Produk <span class="required">*</span>
                     </label>
-
                     <input
                         type="text"
                         id="nama_produk"
@@ -344,69 +309,41 @@
                         value="{{ old('nama_produk', $product->nama_produk) }}"
                         required
                     >
-
                 </div>
 
-
-
                 <div class="form-group">
-
                     <label for="kategori">
-                        Kategori
-                        <span class="required">*</span>
+                        Kategori <span class="required">*</span>
                     </label>
+                    <select id="kategori" name="kategori" required>
+                        <option value="">-- Pilih Kategori --</option>
 
-                    <select
-                        id="kategori"
-                        name="kategori"
-                        required
-                    >
-
-                        <option value="">
-                            -- Pilih Kategori --
-                        </option>
-
-                        <option
-                            value="Roti"
-                            {{ old('kategori', $product->kategori) == 'Roti' ? 'selected' : '' }}
-                        >
+                        <option value="Roti"
+                            {{ old('kategori', $product->kategori) == 'Roti' ? 'selected' : '' }}>
                             Roti
                         </option>
 
-                        <option
-                            value="Donat"
-                            {{ old('kategori', $product->kategori) == 'Donat' ? 'selected' : '' }}
-                        >
+                        <option value="Donat"
+                            {{ old('kategori', $product->kategori) == 'Donat' ? 'selected' : '' }}>
                             Donat
                         </option>
 
-                        <option
-                            value="Kue"
-                            {{ old('kategori', $product->kategori) == 'Kue' ? 'selected' : '' }}
-                        >
+                        <option value="Kue"
+                            {{ old('kategori', $product->kategori) == 'Kue' ? 'selected' : '' }}>
                             Kue
                         </option>
 
-                        <option
-                            value="Pastry"
-                            {{ old('kategori', $product->kategori) == 'Pastry' ? 'selected' : '' }}
-                        >
+                        <option value="Pastry"
+                            {{ old('kategori', $product->kategori) == 'Pastry' ? 'selected' : '' }}>
                             Pastry
                         </option>
-
                     </select>
-
                 </div>
 
-
-
                 <div class="form-group">
-
                     <label for="harga">
-                        Harga
-                        <span class="required">*</span>
+                        Harga <span class="required">*</span>
                     </label>
-
                     <input
                         type="number"
                         id="harga"
@@ -416,52 +353,69 @@
                         step="100"
                         required
                     >
-
-                    <small class="input-help">
-                        Masukkan harga dalam rupiah.
-                    </small>
-
+                    <small class="input-help">Masukkan harga dalam rupiah.</small>
                 </div>
-
-
 
                 <div class="form-group">
-
-                    <label for="deskripsi">
-                        Deskripsi
-                    </label>
-
-                    <textarea
-                        id="deskripsi"
-                        name="deskripsi"
-                    >{{ old('deskripsi', $product->deskripsi) }}</textarea>
-
+                    <label for="deskripsi">Deskripsi</label>
+                    <textarea id="deskripsi" name="deskripsi">{{ old('deskripsi', $product->deskripsi) }}</textarea>
                 </div>
 
+                {{-- FOTO PRODUK --}}
 
+                <div class="form-group">
+                    <label for="foto_produk">Foto Produk</label>
+
+                    @if ($product->foto_produk)
+                        <img
+                            id="previewFoto"
+                            class="photo-preview"
+                            src="{{ asset('storage/' . $product->foto_produk) }}"
+                            alt="Foto {{ $product->nama_produk }}"
+                        >
+                    @else
+                        <div id="placeholderFoto" class="no-photo">
+                            Belum ada foto produk
+                        </div>
+
+                        <img
+                            id="previewFoto"
+                            class="photo-preview"
+                            src=""
+                            alt="Preview foto produk"
+                            style="display: none;"
+                        >
+                    @endif
+
+                    <input
+                        type="file"
+                        id="foto_produk"
+                        name="foto_produk"
+                        accept="image/jpeg,image/png,image/webp"
+                    >
+
+                    <small class="input-help">
+                        Pilih foto baru jika ingin mengganti foto lama.
+                        Format JPG, JPEG, PNG, atau WEBP. Maksimal 2 MB.
+                        Kosongkan jika tidak ingin mengganti foto.
+                    </small>
+                </div>
 
                 {{-- DATA STOK --}}
 
                 <div class="stock-section">
-
-                    <h2 class="stock-title">
-                        Stok Produk
-                    </h2>
+                    <h2 class="stock-title">Stok Produk</h2>
 
                     <p class="stock-description">
                         Stok akan otomatis berkurang ketika produk terjual melalui Kasir.
-                        Gunakan bagian ini untuk menyesuaikan stok saat ada stok baru atau koreksi stok.
+                        Gunakan bagian ini untuk menyesuaikan stok saat ada stok baru
+                        atau koreksi stok.
                     </p>
 
-
-
                     <div class="form-group">
-
                         <label for="jumlah_stok">
-                            Jumlah Stok
-                            <span class="required">*</span>
+                            Jumlah Stok <span class="required">*</span>
                         </label>
-
                         <input
                             type="number"
                             id="jumlah_stok"
@@ -470,22 +424,15 @@
                             min="0"
                             required
                         >
-
                         <small class="input-help">
                             Contoh: 20 berarti tersedia 20 pcs.
                         </small>
-
                     </div>
 
-
-
                     <div class="form-group">
-
                         <label for="satuan">
-                            Satuan
-                            <span class="required">*</span>
+                            Satuan <span class="required">*</span>
                         </label>
-
                         <input
                             type="text"
                             id="satuan"
@@ -493,31 +440,19 @@
                             value="{{ old('satuan', $product->stock?->satuan ?? 'pcs') }}"
                             required
                         >
-
                     </div>
 
-
-
                     <div class="form-group">
-
-                        <label for="keterangan_stok">
-                            Keterangan Stok
-                        </label>
-
+                        <label for="keterangan_stok">Keterangan Stok</label>
                         <textarea
                             id="keterangan_stok"
                             name="keterangan_stok"
                             placeholder="Contoh: Stok ditambah karena produksi baru."
                         >{{ old('keterangan_stok', $product->stock?->keterangan) }}</textarea>
-
                     </div>
-
                 </div>
 
-
-
                 <div class="button-area">
-
                     <a
                         href="{{ route('admin.products.index') }}"
                         class="back-button"
@@ -525,23 +460,33 @@
                         ← Kembali
                     </a>
 
-
-                    <button
-                        type="submit"
-                        class="save-button"
-                    >
+                    <button type="submit" class="save-button">
                         Simpan Perubahan
                     </button>
-
                 </div>
 
             </form>
-
         </div>
-
     </div>
 
+    <script>
+        const inputFoto = document.getElementById('foto_produk');
+        const previewFoto = document.getElementById('previewFoto');
+        const placeholderFoto = document.getElementById('placeholderFoto');
+
+        inputFoto.addEventListener('change', function () {
+            const file = this.files[0];
+
+            if (file) {
+                previewFoto.src = URL.createObjectURL(file);
+                previewFoto.style.display = 'block';
+
+                if (placeholderFoto) {
+                    placeholderFoto.style.display = 'none';
+                }
+            }
+        });
+    </script>
 
 </body>
-
 </html>
