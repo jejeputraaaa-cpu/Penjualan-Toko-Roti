@@ -219,9 +219,9 @@
 
     <!-- NAVBAR -->
     <div class="navbar">
-        <div class="brand">
+        <a href="{{ route('home') }}" class="brand" style="text-decoration: none; color: inherit;">
             Modern Bakery
-        </div>
+        </a>
 
         <div class="user-area">
             <span class="user-name">
@@ -292,7 +292,7 @@
                     <h2>Kelola Pengguna</h2>
 
                     <p>
-                        Mengelola akun pengguna yang dapat
+                        Pengelolaan pengguna dan akun yang dapat
                         menggunakan sistem, seperti Admin/Kasir.
                     </p>
                 </div>

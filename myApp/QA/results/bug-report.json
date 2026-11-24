@@ -1,0 +1,42 @@
+{
+  "bug_report": {
+    "project": "Modern Bakery — Penjualan Toko Roti",
+    "generated_date": "2026-11-24",
+    "last_updated": "2026-11-24 14:15 WIB",
+    "total_bugs": 1,
+    "open_bugs": 0,
+    "fixed_bugs": 1,
+    "bugs": [
+      {
+        "bug_id": "BUG-001",
+        "title": "View products.show tidak ditemukan — Halaman Detail Produk Error 500",
+        "module": "Manajemen Produk",
+        "feature": "Detail Produk",
+        "affected_page": "/admin/produk/{id}",
+        "affected_route": "admin.products.show",
+        "affected_role": "Admin / Kasir",
+        "environment": "Testing (SQLite in-memory) / Semua environment",
+        "severity": "Medium",
+        "priority": "P2",
+        "status": "Fixed & Verified",
+        "description": "Ketika admin mengakses halaman detail produk melalui route GET /admin/produk/{id}, server mengembalikan HTTP 500 karena view 'products.show' tidak ditemukan. ProductController::show() memanggil view('products.show', compact('product')), namun file Blade products/show.blade.php tidak ada dalam direktori resources/views/products/.",
+        "preconditions": [
+          "User login sebagai admin/kasir",
+          "Minimal satu produk tersedia di database"
+        ],
+        "steps_to_reproduce": [
+          "1. Login sebagai admin/kasir",
+          "2. Navigasi ke Daftar Produk (/admin/produk)",
+          "3. Klik tombol Detail/Show pada salah satu produk",
+          "4. Sebelumnya: Mengembalikan HTTP 500"
+        ],
+        "expected_result": "Halaman detail produk ditampilkan dengan HTTP 200",
+        "actual_result": "Halaman detail produk sekarang berhasil ditampilkan dengan status HTTP 200 dan tampilan lengkap (nama, harga, kategori, deskripsi, foto produk, informasi stok, dan tombol aksi).",
+        "root_cause": "File Blade view products/show.blade.php belum dibuat saat implementasi awal resource controller.",
+        "resolution": "Dibuat file resources/views/products/show.blade.php dengan desain responsif yang konsisten dengan tema toko roti Modern Bakery. Ditambahkan juga tombol navigasi 'Detail' pada tabel produk di index.blade.php.",
+        "verification_result": "PASS — Verifikasi otomatis melalui PHPUnit QA_ComprehensiveTest::test_TC027_admin_can_view_product_detail status code 200 OK.",
+        "resolved_at": "2026-11-24 14:12 WIB"
+      }
+    ]
+  }
+}

@@ -180,6 +180,8 @@
 
         .btn-primary { background: var(--brown); color: white; }
         .btn-primary:hover { background: var(--brown-dark); }
+        .btn-detail { background: #e8ecf4; color: #2d4373; }
+        .btn-detail:hover { background: #d7e0f0; }
         .btn-edit { background: #f4e8dd; color: var(--brown); }
         .btn-delete { background: #fbe8e6; color: #a12b24; }
 
@@ -558,6 +560,13 @@
 
                                         <td>
                                             <div class="actions">
+                                                <a
+                                                    class="btn btn-detail"
+                                                    href="{{ route('admin.products.show', $product) }}"
+                                                >
+                                                    Detail
+                                                </a>
+
                                                 <a
                                                     class="btn btn-edit"
                                                     href="{{ route('admin.products.edit', $product) }}"

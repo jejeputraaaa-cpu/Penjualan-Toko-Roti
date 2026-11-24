@@ -1,0 +1,94 @@
+{
+  "qa_project": "Modern Bakery — Penjualan Toko Roti",
+  "skill_used": "website-qa-automation-architect",
+  "execution_date": "2026-11-24",
+  "execution_time": "14:15 WIB",
+  "environment": {
+    "app": "Modern Bakery (myApp)",
+    "framework": "Laravel 13.31.0",
+    "php": "8.3.16",
+    "database_testing": "SQLite in-memory",
+    "test_runner": "PHPUnit 12.5.35",
+    "app_url": "http://localhost:8000"
+  },
+  "summary": {
+    "total_planned": 82,
+    "executed": 82,
+    "passed": 82,
+    "failed": 0,
+    "blocked": 0,
+    "not_tested": 0,
+    "not_applicable": 0,
+    "pass_rate": "100%",
+    "feature_coverage": "9/9 modul (100%)",
+    "overall_test_suite": "90/90 tests passed across all suites",
+    "execution_duration_ms": 2830
+  },
+  "modules_tested": [
+    {
+      "module": "Authentication",
+      "tc_range": "TC001–TC010",
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "module": "Role-Based Access Control",
+      "tc_range": "TC011–TC020",
+      "total": 10,
+      "passed": 10,
+      "failed": 0
+    },
+    {
+      "module": "Manajemen Produk",
+      "tc_range": "TC021–TC035",
+      "total": 15,
+      "passed": 15,
+      "failed": 0,
+      "notes": "TC027 (Detail Produk) berhasil diverifikasi setelah pembuatan view products.show"
+    },
+    {
+      "module": "Kasir / Penjualan",
+      "tc_range": "TC036–TC050",
+      "total": 15,
+      "passed": 15,
+      "failed": 0
+    },
+    {
+      "module": "Laporan Penjualan",
+      "tc_range": "TC051–TC058",
+      "total": 8,
+      "passed": 8,
+      "failed": 0
+    },
+    {
+      "module": "Manajemen Pengguna",
+      "tc_range": "TC059–TC070",
+      "total": 12,
+      "passed": 12,
+      "failed": 0
+    },
+    {
+      "module": "Profil Toko",
+      "tc_range": "TC071–TC076",
+      "total": 6,
+      "passed": 6,
+      "failed": 0
+    },
+    {
+      "module": "Profil Admin",
+      "tc_range": "TC077–TC079",
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    },
+    {
+      "module": "Halaman Publik",
+      "tc_range": "TC080–TC082",
+      "total": 3,
+      "passed": 3,
+      "failed": 0
+    }
+  ],
+  "failures": []
+}
